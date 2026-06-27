@@ -1,0 +1,6 @@
+### JSON ####
+*.json
+
+### pycache
+__pycache__/
+*.pyc
