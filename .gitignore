@@ -4,3 +4,22 @@
 ### pycache
 __pycache__/
 *.pyc
+
+### Logs ###
+*.log
+
+### Arquivos Temporários ###
+*.tmp
+
+### Arquivos de backup ###
+*.bak
+
+### Arquivos de ambiente virtuais ###
+.env
+*.env
+.env.*
+env/
+venv/
+
+### Arquivos de config local ###
+*.local
