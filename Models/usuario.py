@@ -1,5 +1,5 @@
 import json
-from Models.DAO import DAO
+from DAO import DAO
 class Usuario:
     def __init__(self, id, nome, email, senha, funcao):
         self.set_id(id)
@@ -15,7 +15,7 @@ class Usuario:
     def get_funcao(self):      return self.__funcao
 
     def set_id(self, id):
-        if (id > 0) and (id == int(id)):
+        if (id > -1) and (id == int(id)):
             self.__id = id
         else:
             raise ValueError("ID deve ser um número inteiro positivo.")
@@ -39,25 +39,25 @@ class Usuario:
             raise ValueError("A senha deve conter pelo menos 6 caracteres.")
         
     def set_funcao(self, funcao):
-        opcoes_validas = ["admin", "veterinário", "veterinária", "auxiliar Vet"]
+        opcoes_validas = ["admin", "veterinário", "veterinária", "auxiliar veterinário"]
 
         if funcao.lower() in opcoes_validas:
             self.__funcao = funcao
         else:
-            raise ValueError("Função inválida. Opções válidas: admin, veterinário, veterinária, auxiliar Vet.")
+            raise ValueError("Função inválida. Opções válidas: admin, veterinário, veterinária, auxiliar veterinário")
         
     def __str__(self):
         return f"ID: {self.get_id()} - Nome: {self.get_nome()} - Email: {self.get_email()} - Função: {self.get_funcao()}"
 
     def to_json(self):
-        return json.dumps({
+        return {
             "id": self.get_id(),
             "nome": self.get_nome(),
             "email": self.get_email(),
             "senha": self.get_senha(),
             "funcao": self.get_funcao()
-        }, ensure_ascii=False)
-        
-    def from_json(json_data):
-        data = json.loads(json_data)
-        return Usuario(data["id"], data["nome"], data["email"], data["senha"], data["funcao"])
+        }
+
+    @staticmethod    
+    def from_json(dic):
+        return Usuario(dic["id"], dic["nome"], dic["email"], dic["senha"], dic["funcao"])
