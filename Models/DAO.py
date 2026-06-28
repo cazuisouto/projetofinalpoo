@@ -38,13 +38,13 @@ class DAO:
             self.salvar()
 
     def salvar(self):
-        with open(self.__arquivo, mode="w") as arquivo:
-            json.dump(self._objetos, arquivo, default = self.__classe.to_json, indent=4)
+        with open(self.__arquivo, mode="w", encoding="utf-8") as arquivo:
+            json.dump(self._objetos, arquivo, default = self.__classe.to_json, indent=4, ensure_ascii=False)
 
     def abrir(self):
         self._objetos = []
         try:
-            with open(self.__arquivo, mode="r") as arquivo:
+            with open(self.__arquivo, mode="r", encoding="utf-8") as arquivo:
                 list_dic = json.load(arquivo)
                 for dic in list_dic:
                     c = self.__classe.from_json(dic)
