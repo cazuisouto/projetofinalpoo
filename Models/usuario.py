@@ -1,4 +1,3 @@
-import json
 from DAO import DAO
 class Usuario:
     def __init__(self, id, nome, email, senha, funcao):
