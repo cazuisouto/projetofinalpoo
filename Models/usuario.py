@@ -60,3 +60,7 @@ class Usuario:
     @staticmethod    
     def from_json(dic):
         return Usuario(dic["id"], dic["nome"], dic["email"], dic["senha"], dic["funcao"])
+    
+class UsuarioDAO(DAO):
+    def __init__(self):
+        super().__init__(Usuario, "Data/usuarios.json")
