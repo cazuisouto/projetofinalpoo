@@ -1,21 +1,21 @@
 from DAO import DAO
 
 class Pet:
-    def __init__(self, id, nome, especie, raca, idade, id_cliente):
+    def __init__(self, id, nome, especie, raca, idade, tutor):
         self.set_id(id)
         self.set_nome(nome)
         self.set_especie(especie)
         self.set_raca(raca)
         self.set_idade(idade)
-        self.set_id_cliente(id_cliente)
+        self.set_tutor(tutor)
 
     def get_id(self):              return self.__id
     def get_nome(self):            return self.__nome
     def get_especie(self):         return self.__especie
     def get_raca(self):            return self.__raca
     def get_idade(self):           return self.__idade
-    def get_id_cliente(self):      return self.__id_cliente
-
+    def get_tutor(self):           return self.__tutor
+    
 
     def set_id(self, id):
         if (id > -1) and (id == int(id)):
@@ -47,15 +47,15 @@ class Pet:
         else:
             raise ValueError("O nome precisa ser do tipo inteiro")
 
-    def set_id_cliente(self, id_cliente):
-        if (id > -1) and (id == int(id)):
-            self.__id = id_cliente
+    def set_tutor(self, tutor):
+        if isinstance(tutor, str):
+            self.__tutor = tutor
         else:
             raise ValueError("ID deve ser um número inteiro positivo.")
         
 
     def __str__(self):
-        return f"ID: {self.get_id()} - Nome: {self.get_nome()} - Especie: {self.get_especie()} - Raça: {self.get_raca()} - Idade: {self.get_idade()} - Id Cliente: {self.get_id_cliente()}"
+        return f"ID: {self.get_id()} - Nome: {self.get_nome()} - Especie: {self.get_especie()} - Raça: {self.get_raca()} - Idade: {self.get_idade()} - Tutor: {self.get_tutor()}"
     
     def to_json(self):
         return {
@@ -64,12 +64,12 @@ class Pet:
             "especie": self.get_especie(),
             "raça": self.get_raca(),
             "idade": self.get_idade(),
-            "id_cliente": self.get_id_cliente()
+            "id_cliente": self.get_tutor()
         }
     
     staticmethod    
     def from_json(dic):
-        return Pet(dic["id"], dic["nome"], dic["especie"], dic["raça"], dic["idade"], dic["id_cliente"])
+        return Pet(dic["id"], dic["nome"], dic["especie"], dic["raça"], dic["idade"], dic["tutor"])
     
 class PetDAO(DAO):
     def __init__(self):
