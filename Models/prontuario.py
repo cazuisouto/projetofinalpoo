@@ -26,7 +26,7 @@ class Prontuario:
 
     def set_id_pet(self, id_pet):
         if (id_pet > -1) and (id_pet == int(id_pet)):
-            self.__id = id
+            self.__id_pet = id_pet
         else:
             raise ValueError("ID deve ser um número inteiro positivo.")
 
@@ -53,12 +53,12 @@ class Prontuario:
 
     def set_status(self, status):
         status = status.lower()
-        opcoes_validas = ["cancelado", "em andamento", "finalizado"]
+        opcoes_validas = ["liberado", "interno", "finalizado"]
 
         if status in opcoes_validas:
             self.__status = status
         else:
-            raise ValueError("Status inválido. Opções válidas: 'cancelado', 'em andamento', 'finalizado'.")
+            raise ValueError("Status inválido. Opções válidas: 'liberado', 'interno', 'finalizado'.")
     
     def __str__(self):
         return f"ID: {self.get_id()} - ID Pet: {self.get_id_pet()} - ID Doença: {self.get_id_doenca()} - Data de Entrada: {self.get_data_entrada().strftime('%d/%m/%Y')} - Data de Saída: {self.get_data_saida().strftime('%d/%m/%Y')} - Status: {self.get_status()}"
