@@ -1,5 +1,5 @@
 from DAO import DAO
-from datetime import datetime
+from datetime import datetime                                 #Necessita ajustes nos sets ids e raises
 
 class Prontuario:
     def __init__(self, id, id_pet, id_doenca, data_entrada, data_saida, status):
@@ -15,7 +15,7 @@ class Prontuario:
     def get_id_doenca(self):       return self.__id_doenca
     def get_data_entrada(self):    return self.__data_entrada
     def get_data_saida(self):      return self.__data_saida
-    def get_status(self):     return self.__status
+    def get_status(self):          return self.__status
 
 
     def set_id(self, id):
@@ -32,9 +32,9 @@ class Prontuario:
 
     def set_id_doenca(self, id_doenca):
         if (id_doenca > -1) and (id_doenca == int(id_doenca)):
-            self.__id = id
+            self.__id_doenca = id_doenca
         else:
-            raise ValueError("ID deve ser um número inteiro positivo.")
+            raise ValueError("ID de doença deve ser um número inteiro positivo.")
 
     def set_data_entrada(self, data_entrada):
 
