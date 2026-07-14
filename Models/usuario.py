@@ -1,4 +1,4 @@
-from DAO import DAO
+from Models.DAO import DAO
 class Usuario:
     def __init__(self, id, nome, email, senha, funcao):
         self.set_id(id)
