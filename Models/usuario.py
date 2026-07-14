@@ -48,6 +48,9 @@ class Usuario:
     def __str__(self):
         return f"ID: {self.get_id()} - Nome: {self.get_nome()} - Email: {self.get_email()} - Função: {self.get_funcao()}"
 
+    def __repr__(self):
+        return self.__str__()
+
     def to_json(self):
         return {
             "id": self.get_id(),
