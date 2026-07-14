@@ -50,3 +50,33 @@ class View:
     def listar_usuarios_nome_parcial(nome_parcial):
         todos_usuarios = UsuarioDAO().listar()
         return [u for u in todos_usuarios if nome_parcial.lower() in u.get_nome().lower()]
+    
+    #OPERAÇÕES MEDICAMENTOS: CRUD
+
+    @staticmethod
+    def listar_medicamentos():
+        return MedicamentosDAO().listar()
+    
+    @staticmethod
+    def inserir_medicamento(nome, descricao, quantidade, unidade_medida):
+        m = Medicamentos(0, nome, descricao, quantidade, unidade_medida)
+        MedicamentosDAO().inserir(m)
+
+    @staticmethod
+    def listar_medicamento_id(id):
+        return MedicamentosDAO().listar_id(id)
+
+    @staticmethod
+    def atualizar_medicamento(id, nome, descricao, quantidade, unidade_medida):
+        m = Medicamentos(id, nome, descricao, quantidade, unidade_medida)
+        MedicamentosDAO().atualizar(m)
+
+    @staticmethod
+    def excluir_medicamento(id):
+        MedicamentosDAO().excluir(id)
+    
+    @staticmethod
+    def listar_medicamentos_nome_parcial(nome_parcial):
+        todos_medicamentos = MedicamentosDAO().listar()
+        return [m for m in todos_medicamentos if nome_parcial.lower() in m.get_nome().lower()]
+    
