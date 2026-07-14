@@ -1,4 +1,4 @@
-from DAO import DAO
+from Models.DAO import DAO
 
 class Pet:
     def __init__(self, id, nome, especie, raca, idade, tutor):

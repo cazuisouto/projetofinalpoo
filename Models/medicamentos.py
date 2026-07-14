@@ -64,4 +64,4 @@ class Medicamentos:
     
 class MedicamentosDAO(DAO):
     def __init__(self):
-        super().__init__(Medicamentos, "Data/mendicamentos.json")
+        super().__init__(Medicamentos, "Data/medicamentos.json")

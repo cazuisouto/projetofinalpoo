@@ -1,4 +1,4 @@
-from DAO import DAO
+from Models.DAO import DAO
 
 class Doenca:
     def __init__(self, id, nome):

@@ -1,4 +1,4 @@
-from DAO import DAO
+from Models.DAO import DAO
 
 class Aplicacao:
     def __init__(self, id, id_prontuario, id_medicamento, id_veterinario, id_auxiliar, dose_prescrita, instrucoes, status):

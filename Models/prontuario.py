@@ -1,4 +1,4 @@
-from DAO import DAO
+from Models.DAO import DAO
 from datetime import datetime                                 #Necessita ajustes nos sets ids e raises
 
 class Prontuario:
