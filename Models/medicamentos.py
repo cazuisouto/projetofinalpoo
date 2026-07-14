@@ -1,4 +1,4 @@
-from DAO import DAO
+from Models.DAO import DAO
 
 class Medicamentos:
     def __init__(self, id, nome, descricao, quantidade, unidade_medida):
