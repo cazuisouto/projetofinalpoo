@@ -63,6 +63,9 @@ class Prontuario:
     def __str__(self):
         return f"ID: {self.get_id()} - ID Pet: {self.get_id_pet()} - ID Doença: {self.get_id_doenca()} - Data de Entrada: {self.get_data_entrada().strftime('%d/%m/%Y')} - Data de Saída: {self.get_data_saida().strftime('%d/%m/%Y')} - Status: {self.get_status()}"
     
+    def __repr__(self):
+        return self.__str__()
+
     def to_json(self):
         return {
             "id": self.get_id(),

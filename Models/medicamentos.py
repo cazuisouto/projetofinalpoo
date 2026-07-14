@@ -46,7 +46,9 @@ class Medicamentos:
 
     def __str__(self):
         return f"ID: {self.get_id()} - Nome: {self.get_nome()} - Descrição: {self.get_descricao()} - Quantidade: {self.get_quantidade()} - Unidade de Medida: {self.get_unidade_medida()}"
-
+    def __repr__(self):
+        return self.__str__()
+    
     def to_json(self):
         return {
             "id": self.get_id(),

@@ -57,6 +57,9 @@ class Pet:
     def __str__(self):
         return f"ID: {self.get_id()} - Nome: {self.get_nome()} - Especie: {self.get_especie()} - Raça: {self.get_raca()} - Idade: {self.get_idade()} - Tutor: {self.get_tutor()}"
     
+    def __repr__(self):
+        return self.__str__()
+    
     def to_json(self):
         return {
             "id": self.get_id(),

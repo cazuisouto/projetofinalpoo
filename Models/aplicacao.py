@@ -74,6 +74,9 @@ class Aplicacao:
     def __str__(self):
         return f"ID: {self.get_id()} - ID Prontuário: {self.get_id_prontuario()} - ID Medicamento: {self.get_id_medicamento()} - ID Veterinário: {self.get_id_veterinario()} - ID Auxiliar: {self.get_id_auxiliar()} - Dose Prescrita: {self.get_dose_prescrita()} - Instruções: {self.get_instrucoes()} - Status: {self.get_status()}"
     
+    def __repr__(self):
+        return self.__str__()
+    
     def to_json(self):
         return {
             "id": self.get_id(),
