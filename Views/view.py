@@ -151,3 +151,32 @@ class View:
     def listar_pets_nome_parcial(nome_parcial):
         todos_pets = PetDAO().listar()
         return [p for p in todos_pets if nome_parcial.lower() in p.get_nome().lower()]
+    
+    # OPERAÇÕES DOENÇA: CRUD
+
+    @staticmethod
+    def listar_doencas():
+        return DoencaDAO().listar()
+
+    @staticmethod
+    def inserir_doenca(nome):
+        d = Doenca(0, nome)
+        DoencaDAO().inserir(d)
+
+    @staticmethod
+    def listar_doenca_id(id):
+        return DoencaDAO().listar_id(id)
+
+    @staticmethod
+    def atualizar_doenca(id, nome):
+        d = Doenca(id, nome)
+        DoencaDAO().atualizar(d)
+
+    @staticmethod
+    def excluir_doenca(id):
+        DoencaDAO().excluir(id)
+
+    @staticmethod
+    def listar_doencas_nome_parcial(nome_parcial):
+        todas_doencas = DoencaDAO().listar()
+        return [d for d in todas_doencas if nome_parcial.lower() in d.get_nome().lower()]
