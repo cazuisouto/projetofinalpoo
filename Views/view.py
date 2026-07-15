@@ -180,3 +180,35 @@ class View:
     def listar_doencas_nome_parcial(nome_parcial):
         todas_doencas = DoencaDAO().listar()
         return [d for d in todas_doencas if nome_parcial.lower() in d.get_nome().lower()]
+    
+    # OPERAÇÕES PRONTUÁRIO: CRUD
+
+    @staticmethod
+    def listar_prontuarios():
+        return ProntuarioDAO().listar()
+
+    @staticmethod
+    def inserir_prontuario(id_pet, id_doenca, data_entrada, data_saida, status):
+        p = Prontuario(0, id_pet, id_doenca, data_entrada, data_saida, status)
+        ProntuarioDAO().inserir(p)
+
+    @staticmethod
+    def listar_prontuario_id(id):
+        return ProntuarioDAO().listar_id(id)
+
+    @staticmethod
+    def atualizar_prontuario(id, id_pet, id_doenca, data_entrada, data_saida, status):
+        p = Prontuario(id, id_pet, id_doenca, data_entrada, data_saida, status)
+        ProntuarioDAO().atualizar(p)
+
+    @staticmethod
+    def excluir_prontuario(id):
+        ProntuarioDAO().excluir(id)
+        
+    @staticmethod
+    def dar_alta_prontuario(id):
+        p = ProntuarioDAO().listar_id(id)
+        if p:
+            p.set_status("liberado")
+            p.set_data_saida(datetime.now().strftime("%d/%m/%Y"))
+            ProntuarioDAO().atualizar(p)
