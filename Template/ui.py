@@ -1,7 +1,7 @@
 import json
 from Views.view import View
 
-class Template:
+class UI:
     @staticmethod
     def main():
         View.criar_admim() 
@@ -26,11 +26,11 @@ class Template:
                 print(f"\n✅ Bem-vindo(a), {usuario.get_nome()}!")
                 
                 if "admin" in funcao:
-                    Template.menu_admin()
+                    UI.menu_admin()
                 elif "auxiliar" in funcao:
-                    Template.menu_auxiliar(user_id)
+                    UI.menu_auxiliar(user_id)
                 elif "veterin" in funcao:
-                    Template.menu_veterinario(user_id)
+                    UI.menu_veterinario(user_id)
                 else:
                     print("Perfil de acesso não reconhecido.")
                     
@@ -311,4 +311,4 @@ class Template:
                 print(json.dumps(apps, indent=4, ensure_ascii=False) if apps else "Nenhuma aplicação registrada.")
 
 if __name__ == "__main__":
-    Template.main()
+    UI.main()
