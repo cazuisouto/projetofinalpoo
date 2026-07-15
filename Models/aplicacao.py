@@ -64,7 +64,7 @@ class Aplicacao:
 
     def set_status(self, status):
         status = status.lower()
-        opcoes_validas = ["cancelado", "em andamento", "finalizado"]
+        opcoes_validas = ["cancelado", "pendente", "finalizado"]
 
         if status in opcoes_validas:
             self.__status = status

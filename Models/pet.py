@@ -67,7 +67,7 @@ class Pet:
             "especie": self.get_especie(),
             "raça": self.get_raca(),
             "idade": self.get_idade(),
-            "id_cliente": self.get_tutor()
+            "tutor": self.get_tutor()
         }
     
     staticmethod    

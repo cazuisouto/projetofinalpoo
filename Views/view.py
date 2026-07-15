@@ -254,13 +254,20 @@ class View:
         p = ProntuarioDAO().listar_id(id)
         if not p:
             raise ValueError("Prontuário não encontrado.")
+        return p
+    
+    @staticmethod
+    def exibir_detalhes_prontuario(id):
+        p = View.listar_prontuario_id(id)
+        
         pet = PetDAO().listar_id(p.get_id_pet())
         doenca = DoencaDAO().listar_id(p.get_id_doenca())
         nome_pet = pet.get_nome() if pet else "Desconhecido"
         nome_doenca = doenca.get_nome() if doenca else "Desconhecida"
 
-        texto = f"ID Prontuário: {p.get_id()} - Nome do Pet: {nome_pet} - Doença: {nome_doenca} - Data de Entrada: {p.get_data_entrada().strftime('%d/%m/%Y')} - Data de Saída: {p.get_data_saida().strftime('%d/%m/%Y')} - Status: {p.get_status()}"
+        data_saida_formatada = p.get_data_saida() if p.get_data_saida() else "Ainda Internado"
 
+        texto = f"ID Prontuário: {p.get_id()} - Nome do Pet: {nome_pet} - Doença: {nome_doenca} - Data de Entrada: {p.get_data_entrada()} - Data de Saída: {data_saida_formatada} - Status: {p.get_status()}"
         return texto
 
     @staticmethod
@@ -291,9 +298,14 @@ class View:
         texto = "=== Pacientes Internos ===\n"
 
         for p in ativos:
-            pet = View.listar_pet_id(p.get_id_pet())
-            doenca = View.listar_doenca_id(p.get_id_doenca())
-            texto += f"ID Prontuário: {p.get_id()} - Nome do Pet: {pet.get_nome()} - Doença: {doenca.get_nome()} - Data de Entrada: {p.get_data_entrada().strftime('%d/%m/%Y')} - Status: {p.get_status()}\n"
+            
+            pet = PetDAO().listar_id(p.get_id_pet())
+            doenca = DoencaDAO().listar_id(p.get_id_doenca())
+            
+            nome_pet = pet.get_nome() if pet else "Pet Removido"
+            nome_doenca = doenca.get_nome() if doenca else "Doença Removida"
+            
+            texto += f"ID Prontuário: {p.get_id()} - Nome do Pet: {nome_pet} - Doença: {nome_doenca} - Data de Entrada: {p.get_data_entrada()} - Status: {p.get_status()}\n"
 
         return texto
     
