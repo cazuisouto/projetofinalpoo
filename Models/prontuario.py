@@ -53,12 +53,12 @@ class Prontuario:
 
     def set_status(self, status):
         status = status.lower()
-        opcoes_validas = ["liberado", "interno", "finalizado"]
+        opcoes_validas = ["liberado", "interno", "óbito"]
 
         if status in opcoes_validas:
             self.__status = status
         else:
-            raise ValueError("Status inválido. Opções válidas: 'liberado', 'interno', 'finalizado'.")
+            raise ValueError("Status inválido. Opções válidas: 'liberado', 'interno', 'óbito'.")
     
     def __str__(self):
         return f"ID: {self.get_id()} - ID Pet: {self.get_id_pet()} - ID Doença: {self.get_id_doenca()} - Data de Entrada: {self.get_data_entrada().strftime('%d/%m/%Y')} - Data de Saída: {self.get_data_saida().strftime('%d/%m/%Y')} - Status: {self.get_status()}"
