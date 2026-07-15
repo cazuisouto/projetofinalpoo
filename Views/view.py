@@ -122,3 +122,32 @@ class View:
             if m and nome_parcial.lower() in m.get_nome().lower():
                 resultado.append(a)
         return resultado
+
+    # OPERAÇÕES PET: CRUD
+
+    @staticmethod
+    def listar_pets():
+        return PetDAO().listar()
+    
+    @staticmethod
+    def inserir_pet(nome, especie, raca, idade, tutor):        
+        p = Pet(0, nome, especie, raca, idade, tutor)
+        PetDAO().inserir(p)
+
+    @staticmethod
+    def listar_pet_id(id):
+        return PetDAO().listar_id(id)
+
+    @staticmethod
+    def atualizar_pet(id, nome, especie, raca, idade, tutor):
+        p = Pet(id, nome, especie, raca, idade, tutor)
+        PetDAO().atualizar(p)
+
+    @staticmethod
+    def excluir_pet(id):
+        PetDAO().excluir(id)
+
+    @staticmethod
+    def listar_pets_nome_parcial(nome_parcial):
+        todos_pets = PetDAO().listar()
+        return [p for p in todos_pets if nome_parcial.lower() in p.get_nome().lower()]
