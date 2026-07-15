@@ -45,11 +45,15 @@ class Prontuario:
             raise ValueError("Data de entrada inválida.")
 
     def set_data_saida(self, data_saida):
-        try: 
-            data_convertida = datetime.strptime(data_saida, '%d/%m/%Y')
-            self.__data_saida = data_convertida
-        except:
-            raise ValueError("Data de entrada inválida.")
+        if data_saida is None or data_saida == "":
+            self.__data_saida = ""
+        else:
+            try: 
+                data_convertida = datetime.strptime(data_saida, '%d/%m/%Y')
+                self.__data_saida = data_convertida
+            except:
+                raise ValueError("Data de saída inválida.")
+            
 
     def set_status(self, status):
         status = status.lower()
