@@ -87,6 +87,13 @@ class View:
     
     @staticmethod
     def inserir_aplicacao(id_prontuario, id_medicamento, id_veterinario, id_auxiliar, dose_prescrita, instrucoes, status):
+        medicamento = View.listar_medicamento_id(id_medicamento)
+        if not medicamento:
+            raise ValueError("Medicamento não encontrado.")
+        
+        if medicamento.get_quantidade() < dose_prescrita:
+            raise ValueError(f"Atenção Veterinário: Estoque insuficiente para prescrição! Há apenas {medicamento.get_quantidade()} disponíveis.")
+        
         a = Aplicacao(0, id_prontuario, id_medicamento, id_veterinario, id_auxiliar, dose_prescrita, instrucoes, status)
         AplicacaoDAO().inserir(a)
 
@@ -122,6 +129,53 @@ class View:
             if m and nome_parcial.lower() in m.get_nome().lower():
                 resultado.append(a)
         return resultado
+    
+    @staticmethod
+    def confirmar_aplicacao(id_aplicacao):
+        aplicacao = AplicacaoDAO().listar_id(id_aplicacao)
+        if not aplicacao:
+            raise ValueError("Aplicação não encontrada.") 
+        
+        if aplicacao.get_status().lower() in ["cancelado"]:
+            raise ValueError("Esta medicação foi cancelada e não pode ser aplicada!")
+        
+        if aplicacao.get_status().lower() in ["finalizado"]:
+            raise ValueError("Esta medicação já foi registrada como aplicada!")
+
+        
+        medicamento = View.listar_medicamento_id(aplicacao.get_id_medicamento())
+        if not medicamento:
+            raise ValueError("Medicamento não encontrado no sistema.")
+            
+        dose = aplicacao.get_dose_prescrita()
+        if medicamento.get_quantidade() < dose:
+            raise ValueError(f"Estoque insuficiente! Temos apenas {medicamento.get_quantidade()} {medicamento.get_unidade_medida()} disponível.")
+            
+        
+        novo_saldo = medicamento.get_quantidade() - dose
+        medicamento.set_quantidade(novo_saldo)
+        MedicamentosDAO().atualizar(medicamento)
+        
+        aplicacao.set_status("finalizado")
+        AplicacaoDAO().atualizar(aplicacao)
+
+    @staticmethod
+    def listar_aplicacoes_pendentes():
+        todas = AplicacaoDAO().listar()
+        pendentes = [a for a in todas if a.get_status().lower() == "pendente"]
+
+        if not pendentes:
+            raise ValueError("Não há aplicações pendentes no momento.")
+        
+        texto = "=== Aplicações Pendentes ===\n"
+
+        for a in pendentes:
+            prontuario = View.listar_prontuario_id(a.get_id_prontuario())
+            pet = View.listar_pet_id(prontuario.get_id_pet()) if prontuario else None
+            medicamento = View.listar_medicamento_id(a.get_id_medicamento())
+            texto += f"ID Aplicação: {a.get_id()} - Nome do Pet: {pet.get_nome() if pet else 'Desconhecido'} - Medicamento: {medicamento.get_nome() if medicamento else 'Desconhecido'} - Dose Prescrita: {a.get_dose_prescrita()} - Instruções: {a.get_instrucoes()} - Status: {a.get_status()}\n"
+        
+        return texto
 
     # OPERAÇÕES PET: CRUD
 
@@ -136,7 +190,10 @@ class View:
 
     @staticmethod
     def listar_pet_id(id):
-        return PetDAO().listar_id(id)
+        p = PetDAO().listar_id(id)
+        if not p:
+            raise ValueError("Pet não encontrado.")
+        return p
 
     @staticmethod
     def atualizar_pet(id, nome, especie, raca, idade, tutor):
@@ -188,13 +245,23 @@ class View:
         return ProntuarioDAO().listar()
 
     @staticmethod
-    def inserir_prontuario(id_pet, id_doenca, data_entrada, data_saida, status):
-        p = Prontuario(0, id_pet, id_doenca, data_entrada, data_saida, status)
+    def inserir_prontuario(id_pet, id_doenca, data_entrada, status):
+        p = Prontuario(0, id_pet, id_doenca, data_entrada, None, status)
         ProntuarioDAO().inserir(p)
 
     @staticmethod
     def listar_prontuario_id(id):
-        return ProntuarioDAO().listar_id(id)
+        p = ProntuarioDAO().listar_id(id)
+        if not p:
+            raise ValueError("Prontuário não encontrado.")
+        pet = PetDAO().listar_id(p.get_id_pet())
+        doenca = DoencaDAO().listar_id(p.get_id_doenca())
+        nome_pet = pet.get_nome() if pet else "Desconhecido"
+        nome_doenca = doenca.get_nome() if doenca else "Desconhecida"
+
+        texto = f"ID Prontuário: {p.get_id()} - Nome do Pet: {nome_pet} - Doença: {nome_doenca} - Data de Entrada: {p.get_data_entrada().strftime('%d/%m/%Y')} - Data de Saída: {p.get_data_saida().strftime('%d/%m/%Y')} - Status: {p.get_status()}"
+
+        return texto
 
     @staticmethod
     def atualizar_prontuario(id, id_pet, id_doenca, data_entrada, data_saida, status):
@@ -212,3 +279,21 @@ class View:
             p.set_status("liberado")
             p.set_data_saida(datetime.now().strftime("%d/%m/%Y"))
             ProntuarioDAO().atualizar(p)
+
+    @staticmethod
+    def listar_internos():
+        todos = ProntuarioDAO().listar()
+        ativos = [p for p in todos if p.get_status().lower() == "interno"]
+
+        if not ativos:
+            raise ValueError("Não há pacientes internos no momento.")
+        
+        texto = "=== Pacientes Internos ===\n"
+
+        for p in ativos:
+            pet = View.listar_pet_id(p.get_id_pet())
+            doenca = View.listar_doenca_id(p.get_id_doenca())
+            texto += f"ID Prontuário: {p.get_id()} - Nome do Pet: {pet.get_nome()} - Doença: {doenca.get_nome()} - Data de Entrada: {p.get_data_entrada().strftime('%d/%m/%Y')} - Status: {p.get_status()}\n"
+
+        return texto
+    
