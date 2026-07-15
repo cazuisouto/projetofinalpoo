@@ -80,3 +80,45 @@ class View:
         todos_medicamentos = MedicamentosDAO().listar()
         return [m for m in todos_medicamentos if nome_parcial.lower() in m.get_nome().lower()]
     
+    # OPERAÇÕES APLICAÇÃO: CRUD
+    @staticmethod
+    def listar_aplicacoes():
+        return AplicacaoDAO().listar()
+    
+    @staticmethod
+    def inserir_aplicacao(id_prontuario, id_medicamento, id_veterinario, id_auxiliar, dose_prescrita, instrucoes, status):
+        a = Aplicacao(0, id_prontuario, id_medicamento, id_veterinario, id_auxiliar, dose_prescrita, instrucoes, status)
+        AplicacaoDAO().inserir(a)
+
+    @staticmethod
+    def listar_aplicacao_id(id):
+        return AplicacaoDAO().listar_id(id)
+    
+    @staticmethod
+    def atualizar_aplicacao(id, id_prontuario, id_medicamento, id_veterinario, id_auxiliar, dose_prescrita, instrucoes, status):
+        a = Aplicacao(id, id_prontuario, id_medicamento, id_veterinario, id_auxiliar, dose_prescrita, instrucoes, status)
+        AplicacaoDAO().atualizar(a)
+    
+    @staticmethod
+    def excluir_aplicacao(id):
+        AplicacaoDAO().excluir(id)
+
+    @staticmethod
+    def listar_aplicacoes_por_prontuario(id_prontuario):
+        todas_aplicacoes = AplicacaoDAO().listar()
+        return [a for a in todas_aplicacoes if a.get_id_prontuario() == id_prontuario]
+    
+    @staticmethod
+    def listar_aplicacoes_por_medicamento(id_medicamento):
+        todas_aplicacoes = AplicacaoDAO().listar()
+        return [a for a in todas_aplicacoes if a.get_id_medicamento() == id_medicamento]
+    
+    @staticmethod
+    def listar_aplicacoes_por_nome_parcial(nome_parcial):
+        todas_aplicacoes = AplicacaoDAO().listar()
+        resultado = []
+        for a in todas_aplicacoes:
+            m = View.listar_medicamento_id(a.get_id_medicamento())
+            if m and nome_parcial.lower() in m.get_nome().lower():
+                resultado.append(a)
+        return resultado
